@@ -45,6 +45,7 @@ Flags:
       --base string                        base commitish (default to origin/main)
       --debug                              debug mode
       --exclude string                     exclude regexp (default to none)
+      --fail-on-kustomize-error            return non-zero status code if kustomize build fails
       --git-path string                    path of a git binary (default to git)
   -h, --help                               help for run
       --include string                     include regexp (default to all)
