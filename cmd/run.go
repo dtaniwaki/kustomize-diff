@@ -36,6 +36,7 @@ type runFlags struct {
 	gitPath                 string
 	debug                   bool
 	allowDirty              bool
+	failOnKustomizeError    bool
 }
 
 var runCmd = &cobra.Command{
@@ -80,6 +81,14 @@ var runCmd = &cobra.Command{
 
 		printRunResult(dir, opts, res)
 
+		if runOpts.failOnKustomizeError {
+			for _, v := range res.DiffMap.Results {
+				if _, ok := v.(*gitkustomizediff.DiffError); ok {
+					return fmt.Errorf("kustomize build failed")
+				}
+			}
+		}
+
 		return nil
 	},
 }
@@ -96,6 +105,7 @@ func init() {
 	runCmd.PersistentFlags().StringVar(&runOpts.gitPath, "git-path", "", "path of a git binary (default to git)")
 	runCmd.PersistentFlags().BoolVar(&runOpts.debug, "debug", false, "debug mode")
 	runCmd.PersistentFlags().BoolVar(&runOpts.allowDirty, "allow-dirty", false, "allow dirty tree")
+	runCmd.PersistentFlags().BoolVar(&runOpts.failOnKustomizeError, "fail-on-kustomize-error", false, "return non-zero status code if kustomize build fails")
 }
 
 func printRunResult(dirPath string, opts gitkustomizediff.RunOpts, res *gitkustomizediff.RunResult) {

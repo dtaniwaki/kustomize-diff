@@ -28,6 +28,7 @@ type rootFlags struct {
 var RootCmd = &cobra.Command{
 	Use:           "git-kustomize-diff",
 	Short:         "git-kustomize-diff",
+	SilenceUsage:  true,
 	SilenceErrors: false,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if cmd.Use == "version" {
