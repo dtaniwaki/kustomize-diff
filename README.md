@@ -37,6 +37,9 @@ $ git-kustomize-diff run
 Flags:
 
 ```
+Usage:
+  git-kustomize-diff run target_dir [flags]
+
 Flags:
       --allow-dirty                        allow dirty tree
       --base string                        base commitish (default to origin/main)
